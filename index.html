@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SAF MSP Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root {
+      --blue: #0052cc;
+      --border: #e0e0e0;
+      --text-main: #222;
+      --text-muted: #666;
+      --bg: #eef1f5;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      font-size: 1rem; /* base 16px, scalable */
+    }
+
+    .page {
+      width: 100%;
+      max-width: 520px;
+      margin: 1.2rem auto 2.4rem auto;
+      padding: 0 1rem 2rem 1rem;
+    }
+
+    .title {
+      text-align: left;
+      margin-bottom: 1.2rem;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .title p {
+      margin: 0.5rem 0 0 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 0.6rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.1rem 1.25rem 1.1rem;
+      margin-top: 0.9rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 0.9rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      line-height: 1.4;
+    }
+
+    input[type="date"] {
+      margin-top: 0.4rem;
+      padding: 0.6rem 0.6rem;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 0.4rem;
+      border: 1px solid #ccc;
+      background: var(--white);
+    }
+
+    button {
+      margin-top: 1.1rem;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      border: none;
+      border-radius: 0.5rem;
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    button:active {
+      transform: scale(0.99);
+    }
+
+    .result-block + .result-block {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .result-title {
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      font-size: 1.05rem;
+    }
+
+    .result-row {
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .result-label {
+      font-weight: 600;
+    }
+
+    .result-value {
+      margin-top: 0.15rem;
+      padding-left: 0.4rem;
+    }
+
+    .highlight {
+      margin-top: 0.5rem;
+      padding: 0.75rem 0.8rem;
+      border-radius: 0.5rem;
+      background: #f7f9ff;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 0.95rem;
+      }
+      .title h1 {
+        font-size: 1.6rem;
+      }
+      .result-title {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="title">
+      <h1>SAF MSP Calculator</h1>
+      <p>
+        Minimum Service Period (MSP) calculator for servicemen and servicewomen
+        drawing recruitment bonus. MSP is 3 calendar years from the MSP start date.
+      </p>
+    </div>
+
+    <!-- Inputs card -->
+    <div class="card">
+      <label for="mspStart">MSP Start Date</label>
+      <input type="date" id="mspStart">
+
+      <div class="hint">
+        Example: date you are mustered to vocation or when recruitment bonus is first credited.
+      </div>
+
+      <label for="withdrawDate">Planned Recruitment Bonus Withdrawal Date (optional)</label>
+      <input type="date" id="withdrawDate">
+
+      <div class="hint">
+        Surety is required if recruitment bonus is withdrawn <strong>before</strong> the MSP end date.  
+        No surety is required if withdrawn <strong>on or after</strong> the MSP end date.
+      </div>
+
+      <button onclick="calculateMSP()">Calculate MSP</button>
+    </div>
+
+    <!-- Results card -->
+    <div class="card">
+      <div id="result-empty">
+        <p style="font-size:0.9rem;color:var(--text-muted);margin-top:0.1rem;">
+          Enter the MSP start date (and, if relevant, a planned withdrawal date), then tap
+          <strong>Calculate MSP</strong> to see the MSP end date and whether a surety is required.
+        </p>
+      </div>
+
+      <div id="result" style="display:none;">
+        <div class="result-block">
+          <div class="result-title">MSP Details</div>
+          <div class="result-row">
+            <div class="result-label">MSP Length</div>
+            <div class="result-value">
+              3 calendar years from MSP start date.
+            </div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">MSP End Date</div>
+            <div class="result-value" id="mspEndDate"></div>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <div class="result-title">Surety Requirement</div>
+          <div class="highlight" id="suretyInfo"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MSP_YEARS = 3;
+
+    function calculateMSP() {
+      const startInput = document.getElementById("mspStart").value;
+      const withdrawInput = document.getElementById("withdrawDate").value;
+
+      if (!startInput) {
+        alert("Please enter the MSP start date.");
+        return;
+      }
+
+      const startDate = new Date(startInput);
+
+      // MSP end date = 3 calendar years from start date (handles leap years)
+      const endDate = new Date(startDate.getTime());
+      endDate.setFullYear(endDate.getFullYear() + MSP_YEARS);
+
+      const endDateStr = endDate.toLocaleDateString("en-SG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+      document.getElementById("mspEndDate").textContent = endDateStr;
+
+      // Surety logic (only if withdrawal date entered)
+      let suretyMessage;
+      if (!withdrawInput) {
+        suretyMessage =
+          "No withdrawal date entered. If recruitment bonus is withdrawn before " +
+          endDateStr +
+          ", a surety is required. If it is withdrawn on or after " +
+          endDateStr +
+          ", no surety is required.";
+      } else {
+        const withdrawDate = new Date(withdrawInput);
+
+        if (withdrawDate < endDate) {
+          suretyMessage =
+            "Planned withdrawal date is before the MSP end date (" +
+            endDateStr +
+            "). A surety is required to withdraw the recruitment bonus.";
+        } else {
+          suretyMessage =
+            "Planned withdrawal date is on or after the MSP end date (" +
+            endDateStr +
+            "). No surety is required to withdraw the recruitment bonus.";
+        }
+      }
+
+      document.getElementById("suretyInfo").textContent = suretyMessage;
+
+      document.getElementById("result-empty").style.display = "none";
+      document.getElementById("result").style.display = "block";
+    }
+  </script>
+</body>
+</html>
