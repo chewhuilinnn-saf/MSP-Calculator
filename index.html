@@ -6,123 +6,177 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
+    :root {
+      --blue: #1f4ed8;
+      --border: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --bg: #f3f4f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #eef1f5;
-      color: #222;
+      background: var(--bg);
+      color: var(--text-main);
       font-size: 1rem;
+      line-height: 1.5;
     }
 
     .page {
-      max-width: 480px;
-      margin: 16px auto;
-      padding: 0 16px 32px;
+      max-width: 560px;
+      margin: 1rem auto 3rem auto;
+      padding: 0 1rem;
     }
 
-    h1 {
+    .title h1 {
       font-size: 1.8rem;
-      margin-bottom: 0.5rem;
+      margin: 0;
     }
 
-    .subtitle {
+    .title p {
+      margin-top: 0.5rem;
+      color: var(--text-muted);
       font-size: 1rem;
-      color: #555;
-      line-height: 1.4;
-      margin-bottom: 1rem;
     }
 
     .card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 18px;
-      margin-top: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      background: white;
+      border-radius: 0.75rem;
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      margin-top: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     label {
-      font-weight: 600;
-      margin-top: 12px;
       display: block;
+      font-weight: 600;
+      margin-top: 1rem;
     }
 
     input[type="date"] {
       width: 100%;
-      margin-top: 6px;
-      padding: 10px;
+      margin-top: 0.5rem;
+      padding: 0.75rem;
       font-size: 1rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+    }
+
+    .hint {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
     }
 
     button {
+      margin-top: 1.5rem;
       width: 100%;
-      margin-top: 16px;
-      padding: 12px;
-      font-size: 1rem;
+      padding: 0.9rem;
+      font-size: 1.1rem;
       font-weight: 600;
-      background: #0052cc;
+      background: var(--blue);
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 0.6rem;
+      cursor: pointer;
     }
 
-    .note {
-      font-size: 0.9rem;
-      color: #555;
-      margin-top: 10px;
-      line-height: 1.5;
+    .section-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
     }
 
-    .result {
-      margin-top: 12px;
-      font-size: 1rem;
-      line-height: 1.6;
+    .result-box {
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 0.6rem;
+      padding: 0.9rem;
+      margin-top: 0.75rem;
     }
 
-    .bold {
-      font-weight: 600;
+    ul, ol {
+      padding-left: 1.25rem;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 0.95rem;
+      }
+
+      .title h1 {
+        font-size: 1.6rem;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="page">
-    <h1>SAF MSP Calculator (Recruitment Bonus)</h1>
-    <div class="subtitle">
-      Minimum Service Period calculator for servicemen and servicewomen who draw a Recruitment Bonus (RB).
-      MSP for Recruitment Bonus is calculated as three calendar years from the MSP start date.
+    <div class="title">
+      <h1>SAF MSP Calculator</h1>
+      <p>
+        Minimum Service Period (MSP) calculator for servicemen and servicewomen
+        drawing Recruitment Bonus (RB).
+      </p>
     </div>
 
     <div class="card">
-      <label for="startDate">MSP Start Date (Recruitment Bonus)</label>
+      <div class="section-title">MSP for Recruitment Bonus (RB)</div>
+      <p class="hint">
+        There are two ways to take Recruitment Bonus:
+        <br><br>
+        • With surety – withdrawal within MSP requires surety  
+        <br>
+        • Without surety – withdrawal after MSP does not require surety
+        <br><br>
+        The earliest point MSP for RB can start is when a serviceman or servicewoman
+        is mustered into their vocation. MSP for RB is calculated as three calendar
+        years from this date.
+      </p>
+
+      <label for="startDate">MSP Start Date</label>
       <input type="date" id="startDate">
 
-      <div class="note">
-        <strong>Important Information on MSP for Recruitment Bonus</strong><br><br>
-        • Recruitment Bonus may be taken with surety or without surety.<br>
-        • The earliest MSP start date is when the serviceman or servicewoman is first mustered into their vocation.<br>
-        • MSP for RB is three calendar years from this date.<br>
-        • Withdrawal of RB before MSP completion requires a surety.<br>
-        • Withdrawal after MSP completion does not require a surety.<br><br>
-
-        • This calculator applies only to MSP for Recruitment Bonus.<br>
-        • A separate MSP may apply for Return of Investment (ROI) arising from training, which may be pegged to enlistment date or LOE where applicable.<br><br>
-
-        • Recruitment Bonus and scholarships cannot be held concurrently. There is no two bites of the cherry.<br>
-        • MSP for RB is independent of sponsorship or scholarship bonds.<br>
-        • Servicewomen may be considered on a case by case basis.<br><br>
-
-        • If unsure of MSP start date, please consult your Unit Manpower Officer or refer to your RB Deed, if available.
+      <div class="hint">
+        If you are unsure of your mustering date, please refer to your Recruitment
+        Bonus Deed or check with your Unit Manpower Officer or via PERNODES.
       </div>
 
       <button onclick="calculateMSP()">Calculate MSP</button>
     </div>
 
-    <div class="card" id="output" style="display:none;">
-      <div class="result">
-        <div><span class="bold">MSP End Date:</span> <span id="endDate"></span></div>
-        <div><span class="bold">Recruitment Bonus Surety Status:</span> <span id="surety"></span></div>
+    <div class="card" id="resultCard" style="display:none;">
+      <div class="section-title">MSP Result</div>
+
+      <div class="result-box">
+        <strong>MSP End Date</strong>
+        <div id="endDate"></div>
+      </div>
+
+      <div class="result-box">
+        <strong>Surety Requirement</strong>
+        <div id="suretyText"></div>
+      </div>
+
+      <div class="result-box">
+        <strong>Important Notes</strong>
+        <ol>
+          <li>MSP for RB is independent of sponsorship or scholarship bonds.</li>
+          <li>Servicewomen may be considered on a case by case basis.</li>
+        </ol>
+        <p class="hint">
+          MSP for Recruitment Bonus is separate from other service obligations,
+          including return of investment (ROI) requirements which may be pegged
+          to enlistment date or Letter of Employment (LOE), if applicable.
+        </p>
       </div>
     </div>
   </div>
@@ -131,7 +185,7 @@
     function calculateMSP() {
       const startInput = document.getElementById("startDate").value;
       if (!startInput) {
-        alert("Please enter an MSP start date.");
+        alert("Please enter your MSP start date.");
         return;
       }
 
@@ -139,17 +193,19 @@
       const endDate = new Date(startDate);
       endDate.setFullYear(endDate.getFullYear() + 3);
 
-      document.getElementById("endDate").textContent =
-        endDate.toLocaleDateString("en-SG", {
-          day: "numeric",
-          month: "long",
-          year: "numeric"
-        });
+      const formattedEndDate = endDate.toLocaleDateString("en-SG", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
 
-      document.getElementById("surety").textContent =
-        "Surety required if Recruitment Bonus is withdrawn before this date.";
+      document.getElementById("endDate").textContent = formattedEndDate;
 
-      document.getElementById("output").style.display = "block";
+      document.getElementById("suretyText").textContent =
+        "Withdrawal of Recruitment Bonus before this date requires surety. " +
+        "Withdrawal on or after this date does not require surety.";
+
+      document.getElementById("resultCard").style.display = "block";
     }
   </script>
 </body>
