@@ -1,37 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>SAF MSP Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
-    :root{
-      --blue:#0052cc;
-      --bg:#eef1f5;
-      --card:#ffffff;
-      --border:#e0e0e0;
-      --text:#222;
-      --muted:#666;
+    :root {
+      --blue: #0052cc;
+      --border: #e0e0e0;
+      --bg: #eef1f5;
+      --text-main: #222;
+      --text-muted: #555;
     }
 
-    *{ box-sizing:border-box; }
-
-    html{ font-size:16px; }
-    body{
-      margin:0;
-      padding:0;
-      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.35;
+    * {
+      box-sizing: border-box;
     }
 
-    .page{
-      width:100%;
-      max-width:720px;
-      margin:0 auto;
-      padding:16px 16px 24px 16px;
-      min-height:100vh;
-      display:flex;
-      flex-direction
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.2rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 0.8rem;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 0.7rem;
+      font-size: 1rem;
+      margin-top: 0.4rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 1.2rem;
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .section-title {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-line {
+      margin-top: 0.4rem;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .highlight {
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      background: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <h1>SAF MSP Calculator</h1>
+    <p class="subtitle">
+      Minimum Service Period (MSP) calculator for servicemen and servicewomen
+      drawing Recruitment Bonus (RB).
+    </p>
+
+    <div class="card">
+      <label for="startDate">
+        MSP Start Date (Date Mustered Into Vocation for RB)
+      </label>
+      <input type="date" id="startDate">
+
+      <button onclick="calculate()">Calculate MSP</button>
+
+      <p class="note">
+        If you are unsure of your muster date, please consult your unit manpower officer
+        or refer to PERNODES.
+      </p>
+    </div>
+
+    <div class="card" id="results" style="display:none;">
+
+      <div class="section-title">MSP for Recruitment Bonus (RB)</div>
+
+      <div class="result-line" id="mspEnd"></div>
+
+      <div class="highlight">
+        <strong>Recruitment Bonus Withdrawal Options</strong><br><br>
+
+        <strong>Option 1: Withdrawal with surety</strong><br>
+        Recruitment Bonus may be withdrawn before the MSP end date.
+        A surety is required.<br><br>
+
+        <strong>Option 2: Withdrawal without surety</strong><br>
+        Recruitment Bonus may be withdrawn on or after the MSP end date.
+        No surety is required.
+      </div>
+
+      <div class="note">
+        This calculator applies only to MSP for Recruitment Bonus.<br>
+        • A separate MSP may apply for Return of Investment (ROI) arising from training,
+        which may be pegged to enlistment date or LOE where applicable.<br><br>
+
+        • MSP for RB is independent of sponsorship or scholarship bonds.<br>
+        • Recruitment Bonus and scholarships cannot be held concurrently.<br>
+        • Servicewomen may be considered on a case by case basis.<br><br>
+
+        Please refer to your Recruitment Bonus Deed for authoritative terms and conditions.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function calculate() {
+      const startInput = document.getElementById("startDate").value;
+      if (!startInput) {
+        alert("Please enter the MSP start date.");
+        return;
+      }
+
+      const startDate = new Date(startInput);
+      const endDate = new Date(startDate);
+      endDate.setFullYear(endDate.getFullYear() + 3);
+
+      const endDateStr = endDate.toLocaleDateString("en-SG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+      document.getElementById("mspEnd").innerHTML =
+        `<strong>MSP End Date:</strong> ${endDateStr}<br>
+         Withdrawal of Recruitment Bonus before this date requires surety.
+         Withdrawal on or after this date does not require surety.`;
+
+      document.getElementById("results").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
