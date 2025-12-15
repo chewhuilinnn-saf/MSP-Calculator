@@ -7,191 +7,264 @@
 
   <style>
     :root {
-      --blue: #1f4fd8;
-      --bg: #f3f4f6;
-      --card: #ffffff;
-      --border: #e5e7eb;
-      --text-main: #111827;
-      --text-muted: #6b7280;
+      --blue: #0052cc;
+      --border: #e0e0e0;
+      --text-main: #222;
+      --text-muted: #666;
+      --bg: #eef1f5;
+      --card: #fff;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     body {
       margin: 0;
+      padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       background: var(--bg);
       color: var(--text-main);
-      font-size: 1rem;
+      font-size: 18px;
     }
 
     .page {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 20px 16px 32px;
+      width: 100%;
+      max-width: 720px;
+      margin: 16px auto 32px auto;
+      padding: 0 16px 24px 16px;
     }
 
-    h1 {
-      font-size: 1.8rem;
+    .title {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    .title h1 {
       margin: 0;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
 
-    .subtitle {
-      margin-top: 8px;
-      font-size: 0.95rem;
-      line-height: 1.4;
+    .title p {
+      margin: 10px 0 0 0;
+      font-size: 1rem;
       color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 60ch;
     }
 
     .card {
       background: var(--card);
       border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
       border: 1px solid var(--border);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      padding: 20px;
-      margin-top: 18px;
+      padding: 22px 20px 22px 20px;
+      margin-top: 14px;
     }
 
     label {
-      font-weight: 600;
       display: block;
-      margin-bottom: 6px;
-    }
-
-    input[type="date"] {
-      width: 100%;
-      padding: 12px;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
+      margin-top: 16px;
+      font-size: 1.05rem;
+      font-weight: 700;
     }
 
     .hint {
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
-      margin-top: 8px;
-      line-height: 1.4;
+      margin-top: 10px;
+      line-height: 1.55;
+    }
+
+    input[type="date"] {
+      margin-top: 10px;
+      padding: 14px 14px;
+      width: 100%;
+      font-size: 1.05rem;
+      border-radius: 10px;
+      border: 1px solid #cfcfcf;
+      background: #fff;
     }
 
     button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 14px;
-      background: var(--blue);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.05rem;
-      font-weight: 600;
+      margin-top: 22px;
+      padding: 16px 18px;
+      font-size: 1.1rem;
+      font-weight: 800;
       cursor: pointer;
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      background: var(--blue);
+      color: white;
     }
 
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 700;
+    button:active {
+      transform: scale(0.99);
+    }
+
+    .result-title {
+      font-weight: 800;
       margin-bottom: 10px;
+      font-size: 1.15rem;
     }
 
-    .result-line {
-      margin-bottom: 10px;
-      line-height: 1.5;
+    .result-row {
+      margin-top: 10px;
+      font-size: 1rem;
+      line-height: 1.65;
     }
 
-    .box {
-      background: #f9fafb;
+    .highlight {
+      margin-top: 10px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
+      font-size: 1rem;
+    }
+
+    .note-list {
+      margin: 12px 0 0 0;
+      padding-left: 22px;
+      color: var(--text-muted);
+      line-height: 1.55;
       font-size: 0.95rem;
-      margin-top: 8px;
+    }
+
+    .note-list li {
+      margin: 8px 0;
+    }
+
+    .option-box {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #fafafa;
+    }
+
+    .option-title {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 6px 0;
+    }
+
+    .option-text {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 16px;
+      }
+
+      .title h1 {
+        font-size: 1.75rem;
+      }
+
+      .card {
+        padding: 18px 16px 18px 16px;
+      }
     }
   </style>
 </head>
+
 <body>
-
-<div class="page">
-  <h1>SAF MSP Calculator</h1>
-  <div class="subtitle">
-    Minimum Service Period calculator for servicemen and servicewomen drawing Recruitment Bonus (RB).
-    MSP for RB is three calendar years from the MSP start date.
-  </div>
-
-  <!-- Input -->
-  <div class="card">
-    <label for="startDate">MSP Start Date (for Recruitment Bonus)</label>
-    <input type="date" id="startDate">
-
-    <div class="hint">
-      This is typically the date you are mustered into your vocation.  
-      If unsure, please refer to your Recruitment Bonus Deed or consult your Unit Manpower Officer.
+  <div class="page">
+    <div class="title">
+      <h1>SAF MSP Calculator</h1>
+      <p>
+        Minimum Service Period calculator for servicemen and servicewomen drawing recruitment bonus.
+        MSP is three calendar years from the date you are mustered to your vocation.
+      </p>
     </div>
 
-    <button onclick="calculateMSP()">Calculate MSP</button>
-  </div>
+    <div class="card">
+      <label for="mspStartDate">MSP Start Date</label>
+      <input type="date" id="mspStartDate">
 
-  <!-- Results -->
-  <div class="card" id="results" style="display:none;">
-    <div class="section-title">MSP Outcome</div>
+      <div class="hint">
+        MSP is calculated as three calendar years from this date.
+      </div>
 
-    <div class="result-line">
-      <strong>MSP End Date:</strong><br>
-      <div class="box" id="endDate"></div>
+      <button onclick="calculateMSP()">Calculate MSP</button>
     </div>
 
-    <div class="section-title">Recruitment Bonus Options</div>
+    <div class="card">
+      <div id="result-empty">
+        <p style="font-size:1rem;color:var(--text-muted);margin:0;">
+          Enter your MSP start date above and tap Calculate MSP to view your MSP end date and surety requirement.
+        </p>
+      </div>
 
-    <div class="result-line">
-      <strong>Option 1: Take Recruitment Bonus with Surety</strong>
-      <div class="box">
-        Recruitment Bonus may be drawn from the MSP start date.
-        <br><br>
-        If Recruitment Bonus is withdrawn <strong>before</strong> the MSP end date,
-        a surety is required.
+      <div id="result" style="display:none;">
+        <div class="result-title">MSP End Date</div>
+        <div class="highlight" id="mspEndDate"></div>
+
+        <div class="result-title" style="margin-top:18px;">Recruitment Bonus Withdrawal and Surety</div>
+
+        <div class="option-box">
+          <div class="option-title">Option 1: Withdraw Recruitment Bonus Before MSP Ends</div>
+          <p class="option-text">
+            If you choose to withdraw your recruitment bonus before the MSP end date, surety is required.
+          </p>
+        </div>
+
+        <div class="option-box">
+          <div class="option-title">Option 2: Withdraw Recruitment Bonus On or After MSP Ends</div>
+          <p class="option-text">
+            If you choose to withdraw your recruitment bonus on or after the MSP end date, surety is not required.
+          </p>
+        </div>
+
+        <ul class="note-list">
+          <li>MSP for RB is independent of sponsorship or scholarship bonds.</li>
+          <li>Servicewomen may be considered on a case by case basis.</li>
+          <li>If you are unsure of the relevant dates, you may check with your unit manpower officer.</li>
+          <li>Refer to your Recruitment Bonus deed for the most accurate terms and conditions.</li>
+        </ul>
       </div>
     </div>
-
-    <div class="result-line">
-      <strong>Option 2: Take Recruitment Bonus without Surety</strong>
-      <div class="box">
-        Recruitment Bonus is drawn <strong>after</strong> completion of MSP.
-        <br><br>
-        No surety is required.
-      </div>
-    </div>
-
-    <div class="section-title">Additional Notes</div>
-    <div class="box">
-      1. MSP for RB is independent of sponsorship or scholarship bonds.<br><br>
-      2. Servicewomen may be considered on a case by case basis.<br><br>
-      Recruitment Bonus and scholarships cannot be held concurrently.
-    </div>
   </div>
-</div>
 
-<script>
-  function calculateMSP() {
-    const input = document.getElementById("startDate").value;
-    if (!input) {
-      alert("Please enter an MSP start date.");
-      return;
+  <script>
+    const TOTAL_MSP_YEARS = 3;
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+    function calculateMSP() {
+      const startInput = document.getElementById("mspStartDate").value;
+
+      if (!startInput) {
+        alert("Please fill in the MSP start date.");
+        return;
+      }
+
+      const startDate = new Date(startInput);
+
+      const endDate = new Date(startDate.getTime());
+      endDate.setFullYear(endDate.getFullYear() + TOTAL_MSP_YEARS);
+
+      const endDateStr = endDate.toLocaleDateString("en-SG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+      document.getElementById("mspEndDate").textContent = endDateStr;
+
+      document.getElementById("result-empty").style.display = "none";
+      document.getElementById("result").style.display = "block";
     }
-
-    const start = new Date(input);
-    const end = new Date(start);
-    end.setFullYear(end.getFullYear() + 3);
-
-    const formatted = end.toLocaleDateString("en-SG", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
-
-    document.getElementById("endDate").textContent = formatted;
-    document.getElementById("results").style.display = "block";
-  }
-</script>
-
+  </script>
 </body>
 </html>
